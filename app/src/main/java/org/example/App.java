@@ -3,8 +3,35 @@
  */
 package org.example;
 
+import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
+
+
 public class App {
-        public static void main(String[] args) {
-        System.out.println("Hello World");
+    public static void main(String[] args){
+
+        Song s = songTest();
+        s.printSong();
+
+
+        //KaraokePlayer k = new KaraokePlayer(null);
+        //k.initilizeSong();   
     }
+
+    public static Song songTest(){
+        
+        List<Measure> ms = new ArrayList<Measure>();
+        Measure m = new Measure(4, 0.25, new ArrayList<Rest>());
+        int i = 0;
+        while(i < 4){
+            m.addNote(new Rest(0.25));
+            i++;
+        }
+        Song s = new Song(120, ms);
+        s.addMeasure(m);
+        
+        return s;
+    }
+
 }
