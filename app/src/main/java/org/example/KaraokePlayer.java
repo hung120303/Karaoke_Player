@@ -7,61 +7,66 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class KaraokePlayer {
     private Song song;
 
     public KaraokePlayer(Song song){
         this.song = song;
     }
+
     
     public void initilizeSong(){
 		//Play the audio
 		String filepath = "はいよろこんで_mixFNL_inst.wav";
 		playMusic(filepath);
 		
-		//Load Lyrics
-        JFrame app = new JFrame();
-		JPanel panel = new JPanel();
-		JLabel test = new JLabel();
-		LayoutManager layout = new FlowLayout();
+		//Load Lyrics (swing iteration)
+		{
+        //JFrame app = new JFrame();
+		// JPanel panel = new JPanel();
+		// JLabel test = new JLabel();
+		// LayoutManager layout = new FlowLayout();
 		
-		Dimension expectedDimension = new Dimension(800, 500);
+		// Dimension expectedDimension = new Dimension(800, 500);
 
-        panel.setPreferredSize(expectedDimension);
-        panel.setMaximumSize(expectedDimension);
-        panel.setMinimumSize(expectedDimension);
+        // panel.setPreferredSize(expectedDimension);
+        // panel.setMaximumSize(expectedDimension);
+        // panel.setMinimumSize(expectedDimension);
 		
-		test.setText("<html>はいよろこんで<br/>あなた方のため</html>");
-		test.setFont(new Font("Serif", Font.PLAIN, 65));
+		// test.setText("<html>はいよろこんで<br/>あなた方のため</html>");
+		// test.setFont(new Font("Serif", Font.PLAIN, 65));
 		
-		panel.setBackground(Color.GRAY);
+		// panel.setBackground(Color.GRAY);
 		
-		panel.setLayout(new GridBagLayout());
-		panel.add(test);
+		// panel.setLayout(new GridBagLayout());
+		// panel.add(test);
 		
-		Box box = new Box(BoxLayout.Y_AXIS);
+		// Box box = new Box(BoxLayout.Y_AXIS);
 
-        box.add(Box.createVerticalGlue());
-        box.add(panel);     
-        box.add(Box.createVerticalGlue());
+        // box.add(Box.createVerticalGlue());
+        // box.add(panel);     
+        // box.add(Box.createVerticalGlue());
 		
-		app.add(box);
+		// app.add(box);
 		
 		
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        app.setVisible(true);
-        app.setSize(1000, 700);
-		app.setLocationRelativeTo(null);
+        //app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //app.setVisible(true);
+        // app.setSize(1000, 700);
+		// app.setLocationRelativeTo(null);
+		}
+		
+		//Load Lyrics (JavaFX iteration)
+		
     }
 	
 	public static Song haiYorokonde(){
+		//Set bpm and initialize measure set
 		int bpm = 147;
 		List<Measure> measureSet = new ArrayList<Measure>();
 		
-		Measure wholeRest = new Measure(4, 0.25, new ArrayList<Rest>());
-		wholeRest.addNote(new Rest(1));
-		
-		measureSet.addMeasure(wholeRest);
+		//Make the song
 		
 		
 		

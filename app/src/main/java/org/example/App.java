@@ -7,16 +7,38 @@ import javax.swing.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.scene.text.*;
 
-public class App {
-    public static void main(String[] args){
-
-        Song s = songTest();
+public class App extends Application{
+	
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Karaoke!");
+        
+        StackPane root = new StackPane();
+        primaryStage.setScene(new Scene(root, 800, 500));
+        primaryStage.show();
+		
+		Song s = songTest();
         //s.printSong();
 
 
         KaraokePlayer k = new KaraokePlayer(s);
         k.initilizeSong();   
+    }
+
+	
+    public static void main(String[] args){
+        launch(args);
+
+
     }
 
     public static Song songTest(){

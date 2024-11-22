@@ -19,35 +19,35 @@ public class Note extends Rest{
     }
 
 	public Note wholeRest(String syl){
-		return Note(1, null, syl);
+		return new Note(1, null, syl);
 	}
 	
 	public Note dotHalfRest(String syl){
-		return Note(0.75, null, syl);
+		return new Note(0.75, null, syl);
 	}
 	
 	public Note halfRest(String syl){
-		return Note(0.5, null, syl);
+		return new Note(0.5, null, syl);
 	}
 	
 	public Note dotQuarterRest(String syl){
-		return Note(0.375, null, syl);
+		return new Note(0.375, null, syl);
 	}
 	
 	public Note quarterRest(String syl){
-		return Note(0.25, null, syl);
+		return new Note(0.25, null, syl);
 	}
 	
 	public Note dotEightRest(String syl){
-		return Note(0.1875, null, syl);
+		return new Note(0.1875, null, syl);
 	}
 	
 	public Note eightRest(String syl){
-		return Note(0.125, null, syl);
+		return new Note(0.125, null, syl);
 	}
 	
 	public Note sixteenthRest(String syl){
-		return Note(0.0625, null, syl);
+		return new Note(0.0625, null, syl);
 	}
 
 }

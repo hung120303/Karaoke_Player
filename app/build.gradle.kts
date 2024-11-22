@@ -8,12 +8,16 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+	// Apply the JavaFX gradle plugin
+	id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
+
+
 
 dependencies {
     // Use JUnit Jupiter for testing.
@@ -30,6 +34,11 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+// Add java fx controls and fxml module
+javafx {
+    modules("javafx.controls", "javafx.fxml")
 }
 
 application {
