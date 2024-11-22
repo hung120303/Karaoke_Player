@@ -47,4 +47,38 @@ public class Rest {
             return null;
         }   
     }
+	
+	public Rest wholeRest(){
+		return Rest(1);
+	}
+	
+	public Rest dotHalfRest(){
+		return Rest(0.75);
+	}
+	
+	public Rest halfRest(){
+		return Rest(0.5);
+	}
+	
+	public Rest dotQuarterRest(){
+		return Rest(0.375);
+	}
+	
+	public Rest quarterRest(){
+		return Rest(0.25);
+	}
+	
+	public Rest dotEightRest(){
+		return Rest(0.1875);
+	}
+	
+	public Rest eightRest(){
+		return Rest(0.125);
+	}
+	
+	public Rest sixteenthRest(){
+		return Rest(0.0625);
+	}
+	
+	
 }
