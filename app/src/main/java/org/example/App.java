@@ -12,11 +12,11 @@ public class App {
     public static void main(String[] args){
 
         Song s = songTest();
-        s.printSong();
+        //s.printSong();
 
 
-        //KaraokePlayer k = new KaraokePlayer(null);
-        //k.initilizeSong();   
+        KaraokePlayer k = new KaraokePlayer(s);
+        k.initilizeSong();   
     }
 
     public static Song songTest(){
