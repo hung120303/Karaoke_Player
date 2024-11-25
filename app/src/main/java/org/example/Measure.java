@@ -13,6 +13,14 @@ public class Measure {
         this.noteVal = noteVal;
         this.set = set;
     }
+	
+	public String printMeasureLyrics(){
+		String str = "";
+		for(Rest n : set){
+			str += n.getSyllable();
+		}
+		return str;
+	}
     
     public List<Rest> getSet(){
         return this.set;

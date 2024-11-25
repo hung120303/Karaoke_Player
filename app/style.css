@@ -1,0 +1,27 @@
+#custom-label
+{
+    -fx-font-family: "Arial";
+    -fx-font-size: 50px;
+    -fx-text-fill: #ccc; /* Blue text color */
+    -fx-alignment: center;
+}
+
+#custom-label2
+{
+
+    -fx-font-family: "Arial";
+    -fx-font-size: 50px;
+    -fx-text-fill: red, white 40%, blue; /* Blue text color */
+}
+
+#text
+{
+	-fx-font-family: "Arial";
+    -fx-font-size: 50px;
+    -fx-fill: #ccc; /* Gray text color */
+}
+
+#text2
+{
+	
+}

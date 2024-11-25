@@ -3,8 +3,8 @@ package org.example;
 import java.util.List;
 
 public class Song {
-    private int bpm; // # of beats per minute (speed of the song)
-    private List<Measure> set; // the set of measures that make up the song
+    public int bpm; // # of beats per minute (speed of the song)
+    public List<Measure> set; // the set of measures that make up the song
 
     public Song(int bpm, List<Measure> set){
         this.bpm = bpm;
@@ -24,5 +24,10 @@ public class Song {
     public void addMeasure(Measure m){
         this.set.add(m);
     }
+	
+	public int getBpm(){
+		return this.bpm;
+	}
+
     
 }

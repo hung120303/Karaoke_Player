@@ -56,7 +56,7 @@ public class KaraokePlayer {
         // app.setSize(1000, 700);
 		// app.setLocationRelativeTo(null);
 		}
-		
+	
 		//Load Lyrics (JavaFX iteration)
 		
     }
@@ -65,13 +65,48 @@ public class KaraokePlayer {
 		//Set bpm and initialize measure set
 		int bpm = 147;
 		List<Measure> measureSet = new ArrayList<Measure>();
+		Song s = new Song(bpm, measureSet);
 		
 		//Make the song
+		Measure m = new Measure(4, 0.25, new ArrayList<Rest>());
+		m.addNote(Rest.wholeRest());
+		s.addMeasure(m);
+		s.addMeasure(m);
+		s.addMeasure(m);
+		
+		Measure m2 = new Measure(4, 0.25, new ArrayList<Rest>());
+		m2.addNote(Note.quarterNote("はい"));
+		m2.addNote(Note.eighthNote("よ"));
+		m2.addNote(Note.eighthNote("ろ"));
+		m2.addNote(Note.quarterNote("こん"));
+		m2.addNote(Note.quarterNote("で"));
+		
+		s.addMeasure(m2);
+		
+		//"あなた方のため"
+		Measure m3 = new Measure(4, 0.25, new ArrayList<Rest>());
+		m3.addNote(Rest.dotHalfRest());
+		m3.addNote(Rest.eighthRest());
+		m3.addNote(Note.eighthNote("あ"));
+		
+		s.addMeasure(m3);
+		
+		Measure m4 = new Measure(4, 0.25, new ArrayList<Rest>());
+		
+		m4.addNote(Note.eighthNote("な"));
+		m4.addNote(Note.eighthNote("た"));
+		m4.addNote(Note.eighthNote("か"));
+		m4.addNote(Note.eighthNote("た"));
+		m4.addNote(Note.eighthNote("の"));
+		m4.addNote(Note.eighthNote("た"));
+		m4.addNote(Note.eighthNote("め"));
+		m4.addNote(Rest.eighthRest());
+		
+		s.addMeasure(m4);
 		
 		
 		
 		// return the song
-		Song s = new Song(bpm, measureSet);
 		return s;
 	}
 	

@@ -15,30 +15,114 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
+import javafx.scene.control.Label;
+import javafx.animation.*;
+import java.time.*;
+import javafx.scene.*;
+import javafx.scene.paint.*;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos; 
+
 
 public class App extends Application{
+	private double opacity = 1;
+	// private Label label;
+	// private Label label2;
+	private Text text;
+	private Text text2;
+	private String lyrics = "";
+	private Stop[] stops;
+	private LinearGradient lg;
+	private Song s;
 	
     @Override
     public void start(Stage primaryStage) {
+		
         primaryStage.setTitle("Karaoke!");
         
-        StackPane root = new StackPane();
-        primaryStage.setScene(new Scene(root, 800, 500));
+		// label = new Label("huh");
+		// label2 = new Label("what");
+		
+		text = new Text();
+		text2 = new Text();
+		text.setFont(new Font("Arial", 40));
+		text2.setFont(new Font("Arial", 40));
+
+
+		VBox root = new VBox(150, text, text2);
+		root.setAlignment(Pos.CENTER);
+
+		// label.setId("custom-label");
+		// label2.setId("custom-label2");
+		
+		// root.getChildren().add(label);
+		// root.getChildren().add(label2);
+		
+		
+
+
+
+
+		Scene scene = new Scene(root, 800, 500);
+		scene.getStylesheets().add("file:style.css");
+		
+		AnimationTimer timer = new MyTimer();
+		timer.start();
+		
+        primaryStage.setScene(scene);
         primaryStage.show();
 		
-		Song s = songTest();
+		s = KaraokePlayer.haiYorokonde();
         //s.printSong();
-
-
+		
         KaraokePlayer k = new KaraokePlayer(s);
         k.initilizeSong();   
+
     }
+	
+	private class MyTimer extends AnimationTimer{
+		double fillPerc = 0;
+		int nanSec = 0;
+		String s1;
+		String s2;
+		String s3;
+		String s4;
+		int currMeasure = 0;
+		double measureLength;
+		
+		@Override
+		public void handle(long now) {
+			if( nanSec % 1000000000 == 0){
+				
+			}
+			
+			//s.bpm
+			measureLength = (4 * s.bpm)/60;
+			
+			if(fillPerc < 1){
+				fillPerc += 0.005;
+			}
+		
+			stops = new Stop[] { new Stop(fillPerc, Color.RED), new Stop(fillPerc, Color.GRAY)};
+			lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+			
+			text.setFill(lg);
+			text2.setFill(lg);
+			
+			
+			text.setText((s.set).get(3).printMeasureLyrics() + (s.set).get(4).printMeasureLyrics());
+			text2.setText((s.set).get(5).printMeasureLyrics());
+			
+			
+			nanSec++;
+		}
+	}
+	
+	
 
 	
     public static void main(String[] args){
         launch(args);
-
-
     }
 
     public static Song songTest(){

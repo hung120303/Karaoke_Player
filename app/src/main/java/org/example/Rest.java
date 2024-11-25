@@ -4,6 +4,10 @@ public class Rest {
     private double length; // Duration of the rest
     private String name = "R";
 
+	public String getSyllable(){
+		return "";
+	}
+	
     public Rest(double length){
         this.length = length;
     }
@@ -48,35 +52,35 @@ public class Rest {
         }   
     }
 	
-	public Rest wholeRest(){
+	public static Rest wholeRest(){
 		return new Rest(1);
 	}
 	
-	public Rest dotHalfRest(){
+	public static Rest dotHalfRest(){
 		return new Rest(0.75);
 	}
 	
-	public Rest halfRest(){
+	public static Rest halfRest(){
 		return new Rest(0.5);
 	}
 	
-	public Rest dotQuarterRest(){
+	public static Rest dotQuarterRest(){
 		return new Rest(0.375);
 	}
 	
-	public Rest quarterRest(){
+	public static Rest quarterRest(){
 		return new Rest(0.25);
 	}
 	
-	public Rest dotEightRest(){
+	public static Rest dotEightRest(){
 		return new Rest(0.1875);
 	}
 	
-	public Rest eightRest(){
+	public static Rest eighthRest(){
 		return new Rest(0.125);
 	}
 	
-	public Rest sixteenthRest(){
+	public static Rest sixteenthRest(){
 		return new Rest(0.0625);
 	}
 	
