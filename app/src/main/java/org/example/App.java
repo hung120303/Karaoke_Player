@@ -23,6 +23,7 @@ import javafx.scene.paint.*;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos; 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 
 public class App extends Application{
@@ -88,14 +89,27 @@ public class App extends Application{
 		String s2;
 		String s3;
 		String s4;
-		int currMeasure = -1;
+		int currMeasure = 0;
 		BigDecimal measureLength;
 		BigDecimal beatDuration;
-		BigDecimal curTime;
+		BigDecimal currTime;
+		BigDecimal currSongTime;
+		int fourthM = 0;
+		long prev;
+		long time;
 		
 		
 		@Override
 		public void handle(long now) {
+			if(prev == 0){
+				prev = now;			
+				time = 0;
+			}
+			else{
+				time += now - prev;
+				prev = now;
+			}
+			
 			
 			//s.bpm
 			// BPM = 1 minute / beat duration
@@ -103,10 +117,10 @@ public class App extends Application{
 			// beat duration = 1 minute / BPM 
 			//  = 1 / 147
 			
-			if( currMeasure+1 < s.set.size()){
+			if( currMeasure < s.set.size()){
 				
-				beatDuration = new BigDecimal(60.0 / s.bpm); // seconds
-				int n = s.getMeasureAt(currMeasure+1).numBeats;
+				beatDuration = BigDecimal.valueOf(60.0 / s.bpm); // seconds
+				int n = s.getMeasureAt(currMeasure).numBeats;
 				measureLength = beatDuration.multiply(new BigDecimal(n)); // measure length in seconds.
 				// currMeasure starts at 0.
 				// inrement by 1 once frames reaches measureLength. 
@@ -115,11 +129,128 @@ public class App extends Application{
 				// (frames/60) % measureLength == 0 // everytime it's 0, measureLength has been reached
 				// so increment the currMeasure
 				
-				curTime = new BigDecimal((frames/60.0));
-				if (  (curTime.remainder(measureLength)).compareTo(new BigDecimal(0.005)) < 0 ) {
-					currMeasure++;
+				/*
+					want to have 1 measure of lyrics per line 
+					4 lines
+					currMeasure;
+					cM + 1
+					cM + 2
+					cM + 3
+				
+					want 2 lines stay while next 2 play
+					
+					currMeasure % 2. 
+					
+					OOB Case
+					4 Measures left:
+					cM 
+					cM + 1
+					cM + 2
+					cM + 3
+					
+						
+						
+					
+					3 Measures Left (Just the case before, but without one measure):
+					cM
+					cM + 1
+					cM + 2
+					
+					...
+					
+					1 Measure Left
+					cM
+					
+					0 M Left
+					Nothing
+					
+					
+					Ex:
+					currMeasure = 1
+						cM 
+						cM2
+						cM3
+						cM4
+					
+					currMeasure = 2
+						cM
+						cM2
+						cM3
+						cM4
+						
+					currMeasure = 3
+						cM5
+						cM6
+						cM3
+						cM4
+					
+					currMeasure = 4
+						cM5
+						cM6
+						cM3
+						cM4
+					
+					currMeasure = 5
+						cM5
+						cM6
+						cM7
+						cM8
+						
+					Only change text of texts every 2 measures	
+					
+					
+				*/ 
+				
+				
+				// else if (currMeasure + 2 < s.set.size()){
+					// text.setText("\n" + (s.set).get(currMeasure).printMeasureLyrics());
+					// text2.setText((s.set).get(currMeasure + 1).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 2).printMeasureLyrics());
+				// }					
+				// else if (currMeasure + 1 < s.set.size()){
+					// text.setText("");
+					// text2.setText((s.set).get(currMeasure).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 1).printMeasureLyrics());
+				// }
+				// else if (currMeasure < s.set.size()){
+					// text.setText("");
+					// text2.setText((s.set).get(currMeasure).printMeasureLyrics());
+				// }
+				// else{						
+					// text.setText("");
+					// text2.setText("");
+					// System.out.println("End of Song");
+				// }
+				
+				
+				currTime = BigDecimal.valueOf( time/1000000000.0 );
+				currSongTime = measureLength.multiply(new BigDecimal(currMeasure));
+
+				if (  (currTime.compareTo(currSongTime) > 0) ){
+					
+					
+					
+					if(currMeasure + 3 < s.set.size()){
+						if(currMeasure % 4 == 0){
+							text.setText((s.set).get(currMeasure).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 1).printMeasureLyrics());
+							text2.setText((s.set).get(currMeasure + 2).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 3).printMeasureLyrics());
+							System.out.println("change 1");
+							
+						}
+						else if (currMeasure % 4 == 2){
+							text2.setText((s.set).get(currMeasure).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 1).printMeasureLyrics());	
+							text.setText((s.set).get(currMeasure + 2).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 3).printMeasureLyrics());
+							System.out.println("change 2");
+
+						}
+					}
+					currMeasure++;		
+					System.out.println(beatDuration + " : " + measureLength); 
+					System.out.println(currMeasure - 1);
 				}	
+				
+				
 			}
+			// Filling text now
+			
 			 
 			
 			
@@ -127,15 +258,13 @@ public class App extends Application{
 				fillPerc += 0.005;
 			}
 		
-			stops = new Stop[] { new Stop(fillPerc, Color.RED), new Stop(fillPerc, Color.GRAY)};
-			lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
-			
-			text.setFill(lg);
-			text2.setFill(lg);
 			
 			
-			text.setText((s.set).get(3).printMeasureLyrics() + (s.set).get(4).printMeasureLyrics());
-			text2.setText((s.set).get(5).printMeasureLyrics());
+			// text.setFill(lg);
+			// text2.setFill(lg);
+			
+			
+			
 			
 			
 			frames++;

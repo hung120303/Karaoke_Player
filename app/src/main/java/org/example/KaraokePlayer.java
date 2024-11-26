@@ -70,8 +70,16 @@ public class KaraokePlayer {
 		//Make the song
 		Measure m = new Measure(4, 0.25, new ArrayList<Rest>());
 		m.addNote(Rest.wholeRest());
+		
+		//1
 		s.addMeasure(m);
+		//2
 		s.addMeasure(m);
+		//3
+		s.addMeasure(m);
+		//4
+		s.addMeasure(m);
+		//5
 		s.addMeasure(m);
 		
 		Measure m2 = new Measure(4, 0.25, new ArrayList<Rest>());
@@ -81,6 +89,7 @@ public class KaraokePlayer {
 		m2.addNote(Note.quarterNote("こん"));
 		m2.addNote(Note.quarterNote("で"));
 		
+		//6
 		s.addMeasure(m2);
 		
 		//"あなた方のため"
@@ -89,6 +98,7 @@ public class KaraokePlayer {
 		m3.addNote(Rest.eighthRest());
 		m3.addNote(Note.eighthNote("あ"));
 		
+		//7
 		s.addMeasure(m3);
 		
 		Measure m4 = new Measure(4, 0.25, new ArrayList<Rest>());
@@ -102,9 +112,48 @@ public class KaraokePlayer {
 		m4.addNote(Note.eighthNote("め"));
 		m4.addNote(Rest.eighthRest());
 		
+		
+		//8
+		s.addMeasure(m4);
+		//9
+		s.addMeasure(m);
+		
+		m2 = new Measure(4, 0.25, new ArrayList<Rest>());
+		m2.addNote(Note.quarterNote("はい"));
+		m2.addNote(Note.eighthNote("つ"));
+		m2.addNote(Note.eighthNote("つ"));
+		m2.addNote(Note.quarterNote("しん"));
+		m2.addNote(Note.quarterNote("で"));
+		
+		
+		//10
+		s.addMeasure(m2);
+		//11
+		s.addMeasure(m3);
+		
+		//12
 		s.addMeasure(m4);
 		
+		m2 = new Measure(4, 0.25, new ArrayList<Rest>());
+		m2.addNote(Rest.halfRest());
+		m2.addNote(Note.halfNote("に"));
+		//13
+		s.addMeasure(m2);
 		
+		
+		//
+		
+		//rests
+		
+		s.addMeasure(m);
+		s.addMeasure(m);
+		s.addMeasure(m);
+		s.addMeasure(m);
+		
+		
+		
+		
+		//rests
 		
 		// return the song
 		return s;
