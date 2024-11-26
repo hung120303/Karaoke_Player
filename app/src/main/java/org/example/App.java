@@ -230,38 +230,135 @@ public class App extends Application{
 					
 					if(currMeasure + 3 < s.set.size()){
 						if(currMeasure % 4 == 0){
-							text.setText((s.set).get(currMeasure).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 1).printMeasureLyrics());
-							text2.setText((s.set).get(currMeasure + 2).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 3).printMeasureLyrics());
+							text.setText((s.set).get(currMeasure).printMeasureLyrics() + (s.set).get(currMeasure + 1).printMeasureLyrics());
+							text2.setText((s.set).get(currMeasure + 2).printMeasureLyrics()  + (s.set).get(currMeasure + 3).printMeasureLyrics());
 							System.out.println("change 1");
+							
+							// Need to change text for 3rd and 4th measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text2.setFill(lg);
 							
 						}
 						else if (currMeasure % 4 == 2){
-							text2.setText((s.set).get(currMeasure).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 1).printMeasureLyrics());	
-							text.setText((s.set).get(currMeasure + 2).printMeasureLyrics() + "\n" + (s.set).get(currMeasure + 3).printMeasureLyrics());
+							text2.setText((s.set).get(currMeasure).printMeasureLyrics()  + (s.set).get(currMeasure + 1).printMeasureLyrics());	
+							text.setText((s.set).get(currMeasure + 2).printMeasureLyrics()  + (s.set).get(currMeasure + 3).printMeasureLyrics());
 							System.out.println("change 2");
-
+							
+							// Need to change text for 1st and 2nd measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text.setFill(lg);
 						}
 					}
 					currMeasure++;		
-					System.out.println(beatDuration + " : " + measureLength); 
+					//System.out.println(beatDuration + " : " + measureLength); 
 					System.out.println(currMeasure - 1);
 				}	
 				
 				
 			}
-			// Filling text now
+			// Filling text now (Use currMeasure - 1) for current measure
 			
-			 
+			// Get an approximation of the current point of the measure
+			BigDecimal p = currTime.remainder(measureLength);
+			//System.out.println(p);
+			BigDecimal perc = p.divide(measureLength, new MathContext(3));
 			
+			//System.out.println(perc);
+			fillPerc = perc.doubleValue();
+			//System.out.println(fillPerc);
 			
-			if(fillPerc < 1){
-				fillPerc += 0.005;
+			//Fill for specific parts of the each group of 4 measures
+			
+			double percent;
+			if( (currMeasure-1) % 4 == 0){
+				// Need to get length of 1st measure and one after it (if it exists)				
+				
+				// 2nd measure exists
+				if ( currMeasure < (s.set).size() ) {
+					// get total length of both first and second  measures
+					int lengthTotal  = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length() + s.getMeasureAt(currMeasure).printMeasureLyrics().length();
+					
+					// get percentage first measure has between total of 2 measures
+					int length1 = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+					percent = (double) length1/lengthTotal;
+				}
+				else{//doesn't exist
+					percent = 1; // is 100%
+				}
+				
+				
+				
+				stops = new Stop[] { new Stop( (fillPerc * percent), Color.RED), new Stop( (fillPerc * percent) , Color.GRAY)};
+				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				text.setFill(lg);			
 			}
+			else if( (currMeasure-1) % 4 == 1){
+				// Fill the second measure in the text1
+				// Assume that first measure has already been filled
+				
+				// get total length of "2nd" measure and measure before
+				int lengthTotal  = s.getMeasureAt(currMeasure - 1).printMeasureLyrics().length() + s.getMeasureAt(currMeasure - 2).printMeasureLyrics().length();
+				
+				// get percentage first measure has between total of 2 measures
+				int length1 = s.getMeasureAt(currMeasure-2).printMeasureLyrics().length();
+				int length2 = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+				double percent1 = (double) length1/lengthTotal;
+				double percent2 = (double) length2/lengthTotal;
+				
+				
+				stops = new Stop[] { new Stop( ( percent1 + (fillPerc * percent2)), Color.RED), new Stop( ( percent1 + (fillPerc * percent2)) , Color.GRAY)};
+				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+				text.setFill(lg);
+			}
+			else if( (currMeasure-1) % 4 == 2){
+				//Should be the same case like 1st and 2nd measure
+				
+				// 4th measure exists
+				if ( currMeasure < (s.set).size() ) {
+					// get total length of both first and second  measures
+					int lengthTotal  = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length() + s.getMeasureAt(currMeasure).printMeasureLyrics().length();
+					
+					// get percentage first measure has between total of 2 measures
+					int length1 = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+					percent = (double) length1/lengthTotal;
+				}
+				else{//doesn't exist
+					percent = 1; // is 100%
+				}
+				
+				stops = new Stop[] { new Stop( (fillPerc * percent), Color.RED), new Stop( (fillPerc * percent) , Color.GRAY)};
+				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				text2.setFill(lg);
+			}
+			else if ( (currMeasure-1) % 4 == 3 ){
+				//Should be the same case as before
+				
+				// Fill the second measure in the text2
+				// Assume that first measure has already been filled
+				
+				// get total length of "2nd" measure and measure before
+				int lengthTotal  = s.getMeasureAt(currMeasure - 1).printMeasureLyrics().length() + s.getMeasureAt(currMeasure - 2).printMeasureLyrics().length();
+				
+				// get percentage first measure has between total of 2 measures
+				int length1 = s.getMeasureAt(currMeasure-2).printMeasureLyrics().length();
+				int length2 = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+				double percent1 = (double) length1/lengthTotal;
+				double percent2 = (double) length2/lengthTotal;
+				
+				stops = new Stop[] { new Stop( ( percent1 + (fillPerc * percent2)), Color.RED), new Stop( ( percent1 + (fillPerc * percent2)) , Color.GRAY)};
+				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				text2.setFill(lg);
+			}
+			
 		
 			
 			
-			// text.setFill(lg);
-			// text2.setFill(lg);
+			
 			
 			
 			
@@ -269,6 +366,8 @@ public class App extends Application{
 			
 			frames++;
 			}
+			
+			
 	}
 	
 	
