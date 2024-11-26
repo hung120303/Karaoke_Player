@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public class Measure {
-    private int numBeats; // # of beats in one measure
+    public int numBeats; // # of beats in one measure
     private double noteVal; // note value to represent one beat
     private List<Rest> set; // the set of rests and notes that make up the measure
 

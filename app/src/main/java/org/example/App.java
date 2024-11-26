@@ -22,6 +22,7 @@ import javafx.scene.*;
 import javafx.scene.paint.*;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos; 
+import java.math.BigDecimal;
 
 
 public class App extends Application{
@@ -82,22 +83,45 @@ public class App extends Application{
 	
 	private class MyTimer extends AnimationTimer{
 		double fillPerc = 0;
-		int nanSec = 0;
+		int frames = 0;
 		String s1;
 		String s2;
 		String s3;
 		String s4;
-		int currMeasure = 0;
-		double measureLength;
+		int currMeasure = -1;
+		BigDecimal measureLength;
+		BigDecimal beatDuration;
+		BigDecimal curTime;
+		
 		
 		@Override
 		public void handle(long now) {
-			if( nanSec % 1000000000 == 0){
-				
-			}
 			
 			//s.bpm
-			measureLength = (4 * s.bpm)/60;
+			// BPM = 1 minute / beat duration
+			// 120BPM = 1 m / 0.5 s
+			// beat duration = 1 minute / BPM 
+			//  = 1 / 147
+			
+			if( currMeasure+1 < s.set.size()){
+				
+				beatDuration = new BigDecimal(60.0 / s.bpm); // seconds
+				int n = s.getMeasureAt(currMeasure+1).numBeats;
+				measureLength = beatDuration.multiply(new BigDecimal(n)); // measure length in seconds.
+				// currMeasure starts at 0.
+				// inrement by 1 once frames reaches measureLength. 
+				// need to convert frames to seconds
+				// seconds = frames / 60 (FPS)
+				// (frames/60) % measureLength == 0 // everytime it's 0, measureLength has been reached
+				// so increment the currMeasure
+				
+				curTime = new BigDecimal((frames/60.0));
+				if (  (curTime.remainder(measureLength)).compareTo(new BigDecimal(0.005)) < 0 ) {
+					currMeasure++;
+				}	
+			}
+			 
+			
 			
 			if(fillPerc < 1){
 				fillPerc += 0.005;
@@ -114,8 +138,8 @@ public class App extends Application{
 			text2.setText((s.set).get(5).printMeasureLyrics());
 			
 			
-			nanSec++;
-		}
+			frames++;
+			}
 	}
 	
 	

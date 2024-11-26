@@ -10,6 +10,10 @@ public class Song {
         this.bpm = bpm;
         this.set = set;
     }
+	
+	public Measure getMeasureAt(int i){
+		return this.set.get(i);
+	}
 
     public List<Measure> getMeasures(){
         return this.set;
