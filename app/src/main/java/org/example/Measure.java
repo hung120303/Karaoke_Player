@@ -21,6 +21,10 @@ public class Measure {
 		}
 		return str;
 	}
+	
+	public void clearSet(){
+		this.set.clear();
+	}
     
     public List<Rest> getSet(){
         return this.set;

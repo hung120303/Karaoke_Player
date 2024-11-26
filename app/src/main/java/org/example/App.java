@@ -47,11 +47,11 @@ public class App extends Application{
 		
 		text = new Text();
 		text2 = new Text();
-		text.setFont(new Font("Arial", 40));
-		text2.setFont(new Font("Arial", 40));
+		text.setFont(new Font("Arial", 50));
+		text2.setFont(new Font("Arial", 50));
 
 
-		VBox root = new VBox(150, text, text2);
+		VBox root = new VBox(50, text, text2);
 		root.setAlignment(Pos.CENTER);
 
 		// label.setId("custom-label");
@@ -65,7 +65,7 @@ public class App extends Application{
 
 
 
-		Scene scene = new Scene(root, 800, 500);
+		Scene scene = new Scene(root, 1200, 500);
 		scene.getStylesheets().add("file:style.css");
 		
 		AnimationTimer timer = new MyTimer();
@@ -97,6 +97,7 @@ public class App extends Application{
 		int fourthM = 0;
 		long prev;
 		long time;
+		boolean end = false;
 		
 		
 		@Override
@@ -253,6 +254,82 @@ public class App extends Application{
 							text.setFill(lg);
 						}
 					}
+					else if(currMeasure + 2 < s.set.size()){ // same as before, just without 4th measure
+						if(currMeasure % 4 == 0){
+							text.setText((s.set).get(currMeasure).printMeasureLyrics() + (s.set).get(currMeasure + 1).printMeasureLyrics());
+							text2.setText((s.set).get(currMeasure + 2).printMeasureLyrics());
+							System.out.println("change 1");
+							
+							// Need to change text for 3rd and 4th measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text2.setFill(lg);
+							
+						}
+						else if (currMeasure % 4 == 2){
+							text2.setText((s.set).get(currMeasure).printMeasureLyrics()  + (s.set).get(currMeasure + 1).printMeasureLyrics());	
+							text.setText((s.set).get(currMeasure + 2).printMeasureLyrics());
+							System.out.println("change 2");
+							
+							// Need to change text for 1st and 2nd measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text.setFill(lg);
+						}
+					}
+					else if(currMeasure + 1 < s.set.size()){ // same as before, just without 3rd, 4th measure
+						if(currMeasure % 4 == 0){
+							text.setText((s.set).get(currMeasure).printMeasureLyrics() + (s.set).get(currMeasure + 1).printMeasureLyrics());
+							text2.setText("");
+							System.out.println("change 1");
+							
+							// Need to change text for 3rd and 4th measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text2.setFill(lg);
+							
+						}
+						else if (currMeasure % 4 == 2){
+							text2.setText((s.set).get(currMeasure).printMeasureLyrics()  + (s.set).get(currMeasure + 1).printMeasureLyrics());	
+							text.setText("");	
+							System.out.println("change 2");
+							
+							// Need to change text for 1st and 2nd measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text.setFill(lg);
+						}
+					}
+					else if(currMeasure < s.set.size()){ // same as before, just without 2nd, 3rd, 4th measure
+						if(currMeasure % 4 == 0){
+							text.setText((s.set).get(currMeasure).printMeasureLyrics());
+							text2.setText("");
+							System.out.println("change 1");
+							
+							// Need to change text for 3rd and 4th measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text2.setFill(lg);
+							
+						}
+						else if (currMeasure % 4 == 2){
+							text2.setText((s.set).get(currMeasure).printMeasureLyrics());	
+							text.setText("");	
+							System.out.println("change 2");
+							
+							// Need to change text for 1st and 2nd measures back to gray
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+				
+							text.setFill(lg);
+						}
+					}
+					
 					currMeasure++;		
 					//System.out.println(beatDuration + " : " + measureLength); 
 					System.out.println(currMeasure - 1);
@@ -260,6 +337,15 @@ public class App extends Application{
 				
 				
 			}
+			else if(currMeasure == s.set.size()){ // need to get last measure
+				beatDuration = BigDecimal.valueOf(60.0 / s.bpm); // seconds
+				int n = s.getMeasureAt(currMeasure-1).numBeats;
+				measureLength = beatDuration.multiply(new BigDecimal(n)); // measure length in seconds.
+				
+				currTime = BigDecimal.valueOf( time/1000000000.0 );
+				currSongTime = measureLength.multiply(new BigDecimal(currMeasure));
+			}
+						
 			// Filling text now (Use currMeasure - 1) for current measure
 			
 			// Get an approximation of the current point of the measure
@@ -270,6 +356,8 @@ public class App extends Application{
 			//System.out.println(perc);
 			fillPerc = perc.doubleValue();
 			//System.out.println(fillPerc);
+			
+			//System.out.println(p + " : " + perc + " : " + fillPerc );
 			
 			//Fill for specific parts of the each group of 4 measures
 			
@@ -365,9 +453,7 @@ public class App extends Application{
 			
 			
 			frames++;
-			}
-			
-			
+		}
 	}
 	
 	
