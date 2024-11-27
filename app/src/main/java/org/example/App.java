@@ -382,33 +382,48 @@ public class App extends Application{
 				else{//doesn't exist
 					percent = 1; // is 100%
 				}
-				// percent = sum of values of the notes * length
-				double p2 = 0;
+				
+				double finalP = 0;
+				
+				// measurePercent = sum of (values of the notes * length) / totalMeasureLength 
+				boolean endFill = false;
 				double mP = 0;
-				boolean endfill = false;
-				for( int i = 0; i < s.getMeasureAt(currMeasure -1).getSet().size(); i++ ){
-					int length1 = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
-					
-					// percentage of note of the measure
-					Rest n = s.getMeasureAt(currMeasure - 1).getNoteAt(i);
-					mP += (n.getLength() * n.getSyllable().length() / length1) ;
-					
-					if(!endfill){						
-						if( currMP < mP)  {
-							// Note percentage = mP - currMP
-							p2 += mP - currMP;
-							endfill = true;
-						}
-						else{
-							p2 += mP;
-						}
+				if( s.getMeasureAt(currMeasure-1).printMeasureLyrics().length() != 0 ){
+					for( int i = 0; i < s.getMeasureAt(currMeasure -1).getSet().size(); i++ ){
+						// get sum of notes. find how those notes make up total of measureLength
+						// noteDuration 
+						// the measure duration is numBeats * noteValue 
+						double mD = s.getMeasureAt(currMeasure - 1).getBeats() * s.getMeasureAt(currMeasure - 1).getNoteVal();
+						// note duration in terms of measure. note.noteVal / measure.Duration
+						double nD = s.getMeasureAt(currMeasure - 1).getNoteAt(i).getLength();
+						double nP = nD/mD;					
+						mP += nP;
+
+						// mP is the percentage of the measure in terms of notes making up the measure
+						
+						
+						// Need to check if the time has passed or is currently on this note
+						if (!endFill){
+							if(fillPerc < mP){
+								double nP2 =  (nP - (mP - fillPerc) )/ nP;
+								//System.out.println(nP2);
+								finalP += ( (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length()) * nP2;
+								endFill = true;
+							}
+							else{
+								// return the full percentage of the note in terms of string length and total string length of measure
+								// nP * 
+								finalP += (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+							}
+						}	
 					}
-					
 				}
+
 				
 				
+				//System.out.println(p2);
 				
-				stops = new Stop[] { new Stop( (p2 * percent), Color.RED), new Stop( (p2 * percent) , Color.GRAY)};
+				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text.setFill(lg);			
 			}
@@ -425,8 +440,44 @@ public class App extends Application{
 				double percent1 = (double) length1/lengthTotal;
 				double percent2 = (double) length2/lengthTotal;
 				
+				double finalP = 0;
 				
-				stops = new Stop[] { new Stop( ( percent1 + (fillPerc * percent2)), Color.RED), new Stop( ( percent1 + (fillPerc * percent2)) , Color.GRAY)};
+				// measurePercent = sum of (values of the notes * length) / totalMeasureLength 
+				boolean endFill = false;
+				double mP = 0;
+				if( s.getMeasureAt(currMeasure-1).printMeasureLyrics().length() != 0 ){
+					for( int i = 0; i < s.getMeasureAt(currMeasure -1).getSet().size(); i++ ){
+						// get sum of notes. find how those notes make up total of measureLength
+						// noteDuration 
+						// the measure duration is numBeats * noteValue 
+						double mD = s.getMeasureAt(currMeasure - 1).getBeats() * s.getMeasureAt(currMeasure - 1).getNoteVal();
+						// note duration in terms of measure. note.noteVal / measure.Duration
+						double nD = s.getMeasureAt(currMeasure - 1).getNoteAt(i).getLength();
+						double nP = nD/mD;					
+						mP += nP;
+
+						// mP is the percentage of the measure in terms of notes making up the measure
+						
+						
+						// Need to check if the time has passed or is currently on this note
+						if (!endFill){
+							if(fillPerc < mP){
+								double nP2 =  (nP - (mP - fillPerc) )/ nP;
+								//System.out.println(nP2);
+								finalP += ( (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length()) * nP2;
+								endFill = true;
+							}
+							else{
+								// return the full percentage of the note in terms of string length and total string length of measure
+								// nP * 
+								finalP += (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+							}
+						}	
+					}
+				}
+				
+				
+				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 				text.setFill(lg);
@@ -447,7 +498,43 @@ public class App extends Application{
 					percent = 1; // is 100%
 				}
 				
-				stops = new Stop[] { new Stop( (fillPerc * percent), Color.RED), new Stop( (fillPerc * percent) , Color.GRAY)};
+				double finalP = 0;
+				
+				// measurePercent = sum of (values of the notes * length) / totalMeasureLength 
+				boolean endFill = false;
+				double mP = 0;
+				if( s.getMeasureAt(currMeasure-1).printMeasureLyrics().length() != 0 ){
+					for( int i = 0; i < s.getMeasureAt(currMeasure -1).getSet().size(); i++ ){
+						// get sum of notes. find how those notes make up total of measureLength
+						// noteDuration 
+						// the measure duration is numBeats * noteValue 
+						double mD = s.getMeasureAt(currMeasure - 1).getBeats() * s.getMeasureAt(currMeasure - 1).getNoteVal();
+						// note duration in terms of measure. note.noteVal / measure.Duration
+						double nD = s.getMeasureAt(currMeasure - 1).getNoteAt(i).getLength();
+						double nP = nD/mD;					
+						mP += nP;
+
+						// mP is the percentage of the measure in terms of notes making up the measure
+						
+						
+						// Need to check if the time has passed or is currently on this note
+						if (!endFill){
+							if(fillPerc < mP){
+								double nP2 =  (nP - (mP - fillPerc) )/ nP;
+								//System.out.println(nP2);
+								finalP += ( (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length()) * nP2;
+								endFill = true;
+							}
+							else{
+								// return the full percentage of the note in terms of string length and total string length of measure
+								// nP * 
+								finalP += (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+							}
+						}	
+					}
+				}
+				
+				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text2.setFill(lg);
 			}
@@ -466,7 +553,43 @@ public class App extends Application{
 				double percent1 = (double) length1/lengthTotal;
 				double percent2 = (double) length2/lengthTotal;
 				
-				stops = new Stop[] { new Stop( ( percent1 + (fillPerc * percent2)), Color.RED), new Stop( ( percent1 + (fillPerc * percent2)) , Color.GRAY)};
+				double finalP = 0;
+				
+				// measurePercent = sum of (values of the notes * length) / totalMeasureLength 
+				boolean endFill = false;
+				double mP = 0;
+				if( s.getMeasureAt(currMeasure-1).printMeasureLyrics().length() != 0 ){
+					for( int i = 0; i < s.getMeasureAt(currMeasure -1).getSet().size(); i++ ){
+						// get sum of notes. find how those notes make up total of measureLength
+						// noteDuration 
+						// the measure duration is numBeats * noteValue 
+						double mD = s.getMeasureAt(currMeasure - 1).getBeats() * s.getMeasureAt(currMeasure - 1).getNoteVal();
+						// note duration in terms of measure. note.noteVal / measure.Duration
+						double nD = s.getMeasureAt(currMeasure - 1).getNoteAt(i).getLength();
+						double nP = nD/mD;					
+						mP += nP;
+
+						// mP is the percentage of the measure in terms of notes making up the measure
+						
+						
+						// Need to check if the time has passed or is currently on this note
+						if (!endFill){
+							if(fillPerc < mP){
+								double nP2 =  (nP - (mP - fillPerc) )/ nP;
+								//System.out.println(nP2);
+								finalP += ( (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length()) * nP2;
+								endFill = true;
+							}
+							else{
+								// return the full percentage of the note in terms of string length and total string length of measure
+								// nP * 
+								finalP += (double)(s.getMeasureAt(currMeasure-1).getNoteAt(i).getSyllable().length()) / s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+							}
+						}	
+					}
+				}
+				
+				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text2.setFill(lg);
 			}
