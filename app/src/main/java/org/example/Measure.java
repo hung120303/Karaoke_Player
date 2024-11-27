@@ -14,6 +14,10 @@ public class Measure {
         this.set = set;
     }
 	
+	public Rest getNoteAt(int i){
+		return this.set.get(i);
+	}
+	
 	public String printMeasureLyrics(){
 		String str = "";
 		for(Rest n : set){

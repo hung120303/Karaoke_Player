@@ -98,6 +98,7 @@ public class App extends Application{
 		long prev;
 		long time;
 		boolean end = false;
+		double currMP = 0;
 		
 		
 		@Override
@@ -357,9 +358,13 @@ public class App extends Application{
 			fillPerc = perc.doubleValue();
 			//System.out.println(fillPerc);
 			
+			currMP = p.doubleValue();
+			
 			//System.out.println(p + " : " + perc + " : " + fillPerc );
 			
 			//Fill for specific parts of the each group of 4 measures
+			
+			
 			
 			double percent;
 			if( (currMeasure-1) % 4 == 0){
@@ -377,10 +382,33 @@ public class App extends Application{
 				else{//doesn't exist
 					percent = 1; // is 100%
 				}
+				// percent = sum of values of the notes * length
+				double p2 = 0;
+				double mP = 0;
+				boolean endfill = false;
+				for( int i = 0; i < s.getMeasureAt(currMeasure -1).getSet().size(); i++ ){
+					int length1 = s.getMeasureAt(currMeasure-1).printMeasureLyrics().length();
+					
+					// percentage of note of the measure
+					Rest n = s.getMeasureAt(currMeasure - 1).getNoteAt(i);
+					mP += (n.getLength() * n.getSyllable().length() / length1) ;
+					
+					if(!endfill){						
+						if( currMP < mP)  {
+							// Note percentage = mP - currMP
+							p2 += mP - currMP;
+							endfill = true;
+						}
+						else{
+							p2 += mP;
+						}
+					}
+					
+				}
 				
 				
 				
-				stops = new Stop[] { new Stop( (fillPerc * percent), Color.RED), new Stop( (fillPerc * percent) , Color.GRAY)};
+				stops = new Stop[] { new Stop( (p2 * percent), Color.RED), new Stop( (p2 * percent) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text.setFill(lg);			
 			}
