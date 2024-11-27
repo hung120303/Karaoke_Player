@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Pos; 
 import java.math.BigDecimal;
 import java.math.MathContext;
-
+import javafx.scene.text.FontWeight;
 
 public class App extends Application{
 	private double opacity = 1;
@@ -47,8 +47,8 @@ public class App extends Application{
 		
 		text = new Text();
 		text2 = new Text();
-		text.setFont(new Font("Arial", 50));
-		text2.setFont(new Font("Arial", 50));
+		text.setFont( Font.font("Arial", 60));
+		text2.setFont( Font.font("Arial", 60));
 
 
 		VBox root = new VBox(50, text, text2);
@@ -65,7 +65,7 @@ public class App extends Application{
 
 
 
-		Scene scene = new Scene(root, 1200, 500);
+		Scene scene = new Scene(root, 1500, 800);
 		scene.getStylesheets().add("file:style.css");
 		
 		AnimationTimer timer = new MyTimer();
@@ -421,7 +421,7 @@ public class App extends Application{
 
 				
 				
-				//System.out.println(p2);
+				//System.out.println(finalP);
 				
 				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
@@ -475,7 +475,8 @@ public class App extends Application{
 						}	
 					}
 				}
-				
+				//System.out.println(finalP);
+
 				
 				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
@@ -533,6 +534,7 @@ public class App extends Application{
 						}	
 					}
 				}
+				//System.out.println(finalP);
 				
 				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
@@ -588,6 +590,7 @@ public class App extends Application{
 						}	
 					}
 				}
+				//System.out.println(finalP);
 				
 				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.GRAY)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
