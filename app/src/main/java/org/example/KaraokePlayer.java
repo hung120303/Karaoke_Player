@@ -401,6 +401,161 @@ public class KaraokePlayer {
 		s.addMeasure(test19);
 		s.addMeasure(test20);
 		
+		//　ならせ　きみ　の　やまい　のまち　を
+		Measure test21 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test21.addNote(Note.sixteenthNote("な"));
+		test21.addNote(Note.sixteenthNote("ら"));
+		test21.addNote(Note.eighthNote("せ"));
+		test21.addNote(Note.sixteenthNote("き"));
+		test21.addNote(Note.sixteenthNote("み"));
+		test21.addNote(Note.eighthNote("の"));
+		test21.addNote(Note.sixteenthNote("や"));
+		test21.addNote(Note.eighthNote("まい"));
+		test21.addNote(Note.sixteenthNote("の"));
+		test21.addNote(Note.eighthNote("ま"));
+		test21.addNote(Note.eighthNote("ち"));
+		
+		Measure test22 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test22.addNote(Note.eighthNote("を"));
+		test22.addNote(Rest.eighthRest());
+		test22.addNote(Rest.dotHalfRest());
+		
+		// Measure 38 39
+		s.addMeasure(test21);
+		s.addMeasure(test22);
+		
+		// かくせ　わらえる　たにん　の　オピニオン
+		Measure test23 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test23.addNote(Note.sixteenthNote("か"));
+		test23.addNote(Note.sixteenthNote("く"));
+		test23.addNote(Note.eighthNote("せ"));
+		test23.addNote(Note.sixteenthNote("わ"));
+		test23.addNote(Note.eighthNote("らえ"));
+		test23.addNote(Note.sixteenthNote("る"));
+		test23.addNote(Note.sixteenthNote("た"));
+		test23.addNote(Note.eighthNote("にん"));
+		test23.addNote(Note.sixteenthNote("のオ"));
+		test23.addNote(Note.eighthNote("ピ"));
+		test23.addNote(Note.eighthNote("ニ"));
+		
+		Measure test24 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test24.addNote(Note.eighthNote("オン"));
+		test24.addNote(Rest.eighthRest());
+		test24.addNote(Rest.dotHalfRest());
+		
+		// Measure 40 41
+		s.addMeasure(test23);
+		s.addMeasure(test24);
+		
+		// うっちゃれ　せいぎ　の　ちょじん　たち　を
+		Measure test25 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test25.addNote(Note.eighthNote("う"));
+		test25.addNote(Note.sixteenthNote("っちゃ"));
+		test25.addNote(Note.sixteenthNote("れ")); 
+		test25.addNote(Note.eighthNote("せい"));
+		test25.addNote(Note.sixteenthNote("ぎ"));
+		test25.addNote(Note.sixteenthNote("の"));
+		test25.addNote(Note.eighthNote("ちょ"));
+		test25.addNote(Note.eighthNote("じん"));
+		test25.addNote(Note.eighthNote("た"));
+		test25.addNote(Note.eighthNote("ち"));
+		
+		// Measure 42 43
+		s.addMeasure(test25);
+		s.addMeasure(test22);
+		
+		// ならせ　きみ　の　さん　から　ろく　マス　。。。ーーー。。　
+		Measure test26 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test26.addNote(Note.sixteenthNote("な"));
+		test26.addNote(Note.sixteenthNote("ら"));
+		test26.addNote(Note.eighthNote("せ"));
+		test26.addNote(Note.sixteenthNote("き"));
+		test26.addNote(Note.sixteenthNote("み"));
+		test26.addNote(Note.eighthNote("の"));		
+		test26.addNote(Note.eighthNote("さん"));
+		test26.addNote(Note.sixteenthNote("か"));
+		test26.addNote(Note.sixteenthNote("ら"));
+		test26.addNote(Note.sixteenthNote("ろ"));
+		test26.addNote(Note.sixteenthNote("く"));
+		test26.addNote(Note.eighthNote("マス"));
+		
+		// Measure 44 45
+		s.addMeasure(test26);
+		s.addMeasure(test16);
+		
+		// 。
+		Measure donM = new Measure(4, 0.25, new ArrayList<Rest>());
+		donM.addNote(Note.eighthNote("。"));
+		donM.addNote(Rest.eighthRest());
+		donM.addNote(Rest.dotHalfRest());
+		
+		// Measure 46 47 48 49 50 51 
+		s.addMeasure(donM);
+		s.addMeasure(m);
+		s.addMeasure(m);
+		s.addMeasure(m);
+		s.addMeasure(m);
+		s.addMeasure(m);
+	
+
+		// いかり　
+		Measure test27 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test27.addNote(Rest.halfRest());
+		test27.addNote(Rest.eighthRest());
+		test27.addNote(Note.eighthNote("い"));
+		test27.addNote(Note.eighthNote("か"));
+		test27.addNote(Note.eighthNote("り"));
+		
+		
+		// Measure 52 53
+		s.addMeasure(m);
+		s.addMeasure(test27);
+		
+		// だいて　も　やさしさ　が　かつ
+		
+		Measure test28 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test28.addNote(Note.dotHalfNote("だい"));
+		test28.addNote(Note.eighthNote("て"));
+		test28.addNote(Note.eighthNote("も"));
+		
+		Measure test29 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test29.addNote(Rest.eighthRest());
+		test29.addNote(Note.eighthNote("や"));
+		test29.addNote(Note.eighthNote("さ"));
+		test29.addNote(Note.eighthNote("し"));
+		test29.addNote(Note.eighthNote("さ"));
+		test29.addNote(Note.eighthNote("が"));
+		test29.addNote(Note.eighthNote("か"));
+		test29.addNote(Note.eighthNote("つ"));
+		
+		// Measure 53 54
+		
+		s.addMeasure(test28);
+		s.addMeasure(test29);
+		
+		// あなた　の　かけた　とこが　き　//ぼ
+		Measure test30 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test30.addNote(Note.halfNote("あ"));
+		test30.addNote(Rest.eighthRest());
+		test30.addNote(Note.eighthNote("な"));
+		test30.addNote(Note.eighthNote("た"));
+		test30.addNote(Note.eighthNote("の"));
+		
+		Measure test31 = new Measure(4, 0.25, new ArrayList<Rest>());
+		test31.addNote(Rest.eighthRest());
+		test31.addNote(Note.eighthNote("か"));
+		test31.addNote(Note.eighthNote("け"));
+		test31.addNote(Note.eighthNote("た"));
+		test31.addNote(Note.eighthNote("と"));
+		test31.addNote(Note.eighthNote("こ"));
+		test31.addNote(Note.eighthNote("が"));
+		test31.addNote(Note.eighthNote("き"));
+		
+		// Measure 55 56
+		s.addMeasure(test30);
+		s.addMeasure(test31);
+		
+		
 		//rests
 		
 		// return the song
