@@ -25,6 +25,10 @@ import javafx.geometry.Pos;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import javafx.scene.text.FontWeight;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.CornerRadii;
+import javafx.geometry.Insets;
 
 public class App extends Application{
 	private double opacity = 1;
@@ -53,6 +57,8 @@ public class App extends Application{
 
 		VBox root = new VBox(50, text, text2);
 		root.setAlignment(Pos.CENTER);
+		root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
 
 		// label.setId("custom-label");
 		// label2.setId("custom-label2");
@@ -83,26 +89,29 @@ public class App extends Application{
     }
 	
 	private class MyTimer extends AnimationTimer{
+		long time; // Will hold the current time since starting the song in NanoSeconds
+		long prev; // The previous timestamp from 'now' called from the previous 'handle' call
+		
+		
 		double fillPerc = 0;
 		int frames = 0;
-		String s1;
-		String s2;
-		String s3;
-		String s4;
+		
 		int currMeasure = 0;
 		BigDecimal measureLength;
 		BigDecimal beatDuration;
 		BigDecimal currTime;
 		BigDecimal currSongTime;
 		int fourthM = 0;
-		long prev;
-		long time;
 		boolean end = false;
 		double currMP = 0;
 		
-		
-		@Override
-		public void handle(long now) {
+		/*	Method updateTime(long now)
+			
+			Takes the 'now' variable to get the current timeframe in terms of nanoseconds.
+			Use 'now' and the previous timeframe in the previous handle call to get the time difference. 
+			Add that to the time counter held in 'time'
+		*/
+		public void updateTime(long now){
 			if(prev == 0){
 				prev = now;			
 				time = 0;
@@ -111,7 +120,13 @@ public class App extends Application{
 				time += now - prev;
 				prev = now;
 			}
-			
+		}
+		
+		/* */
+		
+		@Override
+		public void handle(long now) {
+			updateTime(now);
 			
 			//s.bpm
 			// BPM = 1 minute / beat duration
@@ -119,11 +134,14 @@ public class App extends Application{
 			// beat duration = 1 minute / BPM 
 			//  = 1 / 147
 			
-			if( currMeasure < s.set.size()){
+			// See if the measure count has reached the end (total # of measures in the song)
+			if( currMeasure < s.getSize()){
 				
-				beatDuration = BigDecimal.valueOf(60.0 / s.bpm); // seconds
-				int n = s.getMeasureAt(currMeasure).numBeats;
-				measureLength = beatDuration.multiply(new BigDecimal(n)); // measure length in seconds.
+				beatDuration = s.getBeatDurationAtMeasure(currMeasure); // seconds
+				int n = s.getNumBeatsAtMeasure(currMeasure);
+				measureLength = s.getMeasureLengthAt(currMeasure); // measure length in seconds.
+				currTime = BigDecimal.valueOf( time/1000000000.0 );
+				currSongTime = measureLength.multiply(new BigDecimal(currMeasure));
 				// currMeasure starts at 0.
 				// inrement by 1 once frames reaches measureLength. 
 				// need to convert frames to seconds
@@ -140,7 +158,7 @@ public class App extends Application{
 					cM + 3
 				
 					want 2 lines stay while next 2 play
-					
+						
 					currMeasure % 2. 
 					
 					OOB Case
@@ -223,8 +241,6 @@ public class App extends Application{
 				// }
 				
 				
-				currTime = BigDecimal.valueOf( time/1000000000.0 );
-				currSongTime = measureLength.multiply(new BigDecimal(currMeasure));
 
 				if (  (currTime.compareTo(currSongTime) > 0) ){
 					
@@ -236,8 +252,8 @@ public class App extends Application{
 							text2.setText((s.set).get(currMeasure + 2).printMeasureLyrics()  + (s.set).get(currMeasure + 3).printMeasureLyrics());
 							System.out.println("change 1");
 							
-							// Need to change text for 3rd and 4th measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 3rd and 4th measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text2.setFill(lg);
@@ -248,8 +264,8 @@ public class App extends Application{
 							text.setText((s.set).get(currMeasure + 2).printMeasureLyrics()  + (s.set).get(currMeasure + 3).printMeasureLyrics());
 							System.out.println("change 2");
 							
-							// Need to change text for 1st and 2nd measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 1st and 2nd measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text.setFill(lg);
@@ -261,8 +277,8 @@ public class App extends Application{
 							text2.setText((s.set).get(currMeasure + 2).printMeasureLyrics());
 							System.out.println("change 1");
 							
-							// Need to change text for 3rd and 4th measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 3rd and 4th measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text2.setFill(lg);
@@ -273,8 +289,8 @@ public class App extends Application{
 							text.setText((s.set).get(currMeasure + 2).printMeasureLyrics());
 							System.out.println("change 2");
 							
-							// Need to change text for 1st and 2nd measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 1st and 2nd measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text.setFill(lg);
@@ -286,8 +302,8 @@ public class App extends Application{
 							text2.setText("");
 							System.out.println("change 1");
 							
-							// Need to change text for 3rd and 4th measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 3rd and 4th measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text2.setFill(lg);
@@ -298,8 +314,8 @@ public class App extends Application{
 							text.setText("");	
 							System.out.println("change 2");
 							
-							// Need to change text for 1st and 2nd measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 1st and 2nd measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text.setFill(lg);
@@ -311,8 +327,8 @@ public class App extends Application{
 							text2.setText("");
 							System.out.println("change 1");
 							
-							// Need to change text for 3rd and 4th measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 3rd and 4th measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text2.setFill(lg);
@@ -323,8 +339,8 @@ public class App extends Application{
 							text.setText("");	
 							System.out.println("change 2");
 							
-							// Need to change text for 1st and 2nd measures back to gray
-							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.GRAY)};
+							// Need to change text for 1st and 2nd measures back to WHITE
+							stops = new Stop[] { new Stop(0, Color.RED), new Stop(0 , Color.WHITE)};
 							lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 							text.setFill(lg);
@@ -423,7 +439,7 @@ public class App extends Application{
 				
 				//System.out.println(finalP);
 				
-				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.GRAY)};
+				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.WHITE)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text.setFill(lg);			
 			}
@@ -478,7 +494,7 @@ public class App extends Application{
 				//System.out.println(finalP);
 
 				
-				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.GRAY)};
+				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.WHITE)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				
 				text.setFill(lg);
@@ -536,7 +552,7 @@ public class App extends Application{
 				}
 				//System.out.println(finalP);
 				
-				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.GRAY)};
+				stops = new Stop[] { new Stop( (finalP * percent), Color.RED), new Stop( (finalP * percent) , Color.WHITE)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text2.setFill(lg);
 			}
@@ -592,7 +608,7 @@ public class App extends Application{
 				}
 				//System.out.println(finalP);
 				
-				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.GRAY)};
+				stops = new Stop[] { new Stop( ( percent1 + (finalP * percent2)), Color.RED), new Stop( ( percent1 + (finalP * percent2)) , Color.WHITE)};
 				lg = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
 				text2.setFill(lg);
 			}

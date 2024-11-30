@@ -1,18 +1,33 @@
 package org.example;
 
 import java.util.List;
+import java.math.BigDecimal;
+
 
 
 public class Measure {
     public int numBeats; // # of beats in one measure
     private double noteVal; // note value to represent one beat
     private List<Rest> set; // the set of rests and notes that make up the measure
+	public double bpm; // bpm of the song at the current measure
 
     public Measure(int numBeats, double noteVal, List<Rest> set){
         this.numBeats = numBeats;
         this.noteVal = noteVal;
         this.set = set;
     }
+	
+	public BigDecimal getMeasureLength(){
+		return this.getBeatDuration().multiply(new BigDecimal(this.getBeats()));
+	}
+	
+	public void setBPM(double bpm){
+		this.bpm = bpm;
+	}
+	
+	public BigDecimal getBeatDuration(){
+		return BigDecimal.valueOf(60.0/this.bpm);
+	}
 	
 	public Rest getNoteAt(int i){
 		return this.set.get(i);

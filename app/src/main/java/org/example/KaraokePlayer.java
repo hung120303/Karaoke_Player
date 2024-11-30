@@ -557,17 +557,12 @@ public class KaraokePlayer {
 		
 		// ぼ (Save this game,
 		Measure test32 = new Measure(4, 0.25, new ArrayList<Rest>());
-		test32.addNote(Note.quarterNote("ぼ"));
-		test32.addNote(Note.quarterNote("(Save "));
-		test32.addNote(Note.quarterNote("This "));
-		test32.addNote(Note.quarterNote("Game "));
+		test32.addNote(Note.quarterNote("ぼ "));
+		test32.addNote(Rest.dotHalfRest());
 		
 		// Mr. A) すく　
 		Measure test33 = new Measure(4, 0.25, new ArrayList<Rest>());
-		test33.addNote(Note.quarterNote("M"));
-		test33.addNote(Note.eighthNote("r. "));
-		test33.addNote(Note.eighthNote(" A)"));
-		test33.addNote(Rest.quarterRest());
+		test33.addNote(Rest.dotHalfRest());
 		test33.addNote(Note.eighthNote("す"));
 		test33.addNote(Note.eighthNote("く"));
 		
@@ -577,11 +572,11 @@ public class KaraokePlayer {
 		
 		
 		
-		
+
 		
 		
 		//rests
-		
+		s.setBPMtoAllMeasures(bpm);
 		// return the song
 		return s;
 	}
